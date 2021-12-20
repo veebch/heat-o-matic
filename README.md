@@ -2,7 +2,7 @@
 
 # lazycook
 
-A Pico PID controller that will be used to run a homebrew immersion circulator.
+A Raspberry Pi Pico based proportional integral derivative (PID) controller that will be used to run a home-made immersion circulator.
 
 Pico + OLED + Rotary Encoder + plug socket
 
