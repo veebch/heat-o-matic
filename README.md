@@ -20,11 +20,11 @@ First flash the board with the latest version of micropython.
 
 Then clone this repository onto your computer
 
-     git clone https://github.com/veebch/lazyfood
+     git clone https://github.com/veebch/lazycook
 
 and move into the repository directory
 
-     cd lazyfood
+     cd lazycook
 
 There are a few files to copy to the pico, [ampy](https://learn.adafruit.com/micropython-basics-load-files-and-run-code/install-ampy) is a good way to do it.
 
