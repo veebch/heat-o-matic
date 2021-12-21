@@ -12,7 +12,7 @@ A proportional integral derivative (PID) controller that will be used to run a h
 - DS18B20 Stainless Steel Temperature Sensor 
 - a plug socket 
 
-**Warning: Don't generate heat using something that dislikes being power-cycled a lot. Something something NO WARRANTY**
+**Warning: Don't generate heat using something that dislikes being power-cycled a lot. This is GPL...NO WARRANTY**
 
 # Installing Lazycook onto a Pico
 
