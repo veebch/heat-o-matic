@@ -1,5 +1,5 @@
 # main.py - a script for making a temperature regulating PID, running using a Raspberry Pi Pico
-# First prototype is using an OLED, rotary encoder and relay switch (linked to heating device of some sort)
+# First prototype is using an OLED, rotary encoder and a relay switch (linked to heating device of some sort)
 # The display relies on drivers made by Peter Hinch [link](https://github.com/peterhinch/micropython-nano-gui)
 
 # Released under the GPL 3.0
@@ -112,14 +112,9 @@ def button(pin):
         if stack[2]!=number:
             stack.pop(0)
             stack.append(number)
-            change=stack[2]-stack[1]
-            print("Change",change)           
-            dir='ccw'
-            if stack[1]-stack[2]>0:
-                change=stack[1]-stack[2]
-                dir='cw'
-            print("Change",change)  
-            doaspin(change, dir)
+            temperature=stack[2]
+            print("NewTemp",temperature)  
+            newsetpoint(temperature)
         time.sleep(.1)
         
         button_last_state = button_current_state
@@ -141,13 +136,9 @@ def displaynum(num):
     ssd.show()
     return
 
-def doaspin(offset, direction):
+def newsetpoint(offset):
     print('offset:',float(offset))
-    speed=100     
-    if direction=='ccw':
-        print("motor A backward, speed ",speed,"%, Run for ",offset,"S, then stop")
-    else:
-        print("motor A forward, speed ",speed,"%, Run for ",offset,"S, then stop")
+    # This is where the temperature needs to go
     return
 
 # Attach interrupt to Pins
