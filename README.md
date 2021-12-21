@@ -12,7 +12,11 @@ Pico + OLED + Rotary Encoder + plug socket
 
 # Using it
 
-# Video
+# Video of it running
+
+# Contributing
+
+If you look at this and think it needs improving, fork it and make it better.
 
 # Licence 
 GPL 3.0
