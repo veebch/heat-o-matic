@@ -11,6 +11,8 @@ Warning: Don't heat using something that dislikes being power-cycled a lot. Some
 
 # Installing it onto a Pico
 
+[rshell](https://github.com/dhylands/rshell) is going to be the way to do it. I vaguely recall there being a minor complication. Check notes. 
+
 # Using it
 
 # Video of it running
