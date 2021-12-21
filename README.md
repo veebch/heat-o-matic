@@ -18,15 +18,10 @@ A proportional integral derivative (PID) controller that will be used to run a h
 
 First flash the board with the latest version of micropython. 
 
-There are a few files, so [rshell](https://github.com/dhylands/rshell) is going to be the way to do it.
+There are a few files, so [ampy](https://learn.adafruit.com/micropython-basics-load-files-and-run-code/install-ampy) is going to be the way to do it.
 
-     rshell --buffer-size=512 -p /dev/ttyACM0
-     
-Then copy all the files from this directory using the command
+     sudo ampy -p /dev/ttyACM0 put ./
 
-     cp -r * /pyboard/
-
-There are some issues with rshell, recursive copy hangs.
 
 # Using it
 
