@@ -19,9 +19,11 @@ A proportional integral derivative (PID) controller that will be used to run a h
 First flash the board with the latest version of micropython. 
 
 Then clone this repository onto your computer
+
      git clone https://github.com/veebch/lazyfood
 
 and move into the repository directory
+
      cd lazyfood
 
 There are a few files, so [ampy](https://learn.adafruit.com/micropython-basics-load-files-and-run-code/install-ampy) is going to be the way to do it.
