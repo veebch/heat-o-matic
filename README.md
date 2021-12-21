@@ -16,7 +16,15 @@ A proportional integral derivative (PID) controller that will be used to run a h
 
 # Installing it onto a Pico
 
-There are a few files (TODO: Trim them down), so [rshell](https://github.com/dhylands/rshell) is going to be the way to do it. I vaguely recall there being a minor complication. Check notes. 
+First flash the board with the latest version of micropython. 
+
+There are a few files, so [rshell](https://github.com/dhylands/rshell) is going to be the way to do it.
+
+     rshell --buffer-size=512 -p /dev/ttyACM0
+     
+Then copy all the files from this directory using the command
+
+     cp -r * /pyboard/
 
 # Using it
 
