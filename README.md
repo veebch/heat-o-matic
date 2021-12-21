@@ -1,12 +1,12 @@
 [![YouTube Channel Views](https://img.shields.io/youtube/channel/views/UCz5BOU9J9pB_O0B8-rDjCWQ?label=YouTube&style=social)](https://www.youtube.com/channel/UCz5BOU9J9pB_O0B8-rDjCWQ)
 
-# lazycook
+# Lazycook
 
-A Raspberry Pi Pico based proportional integral derivative (PID) controller that will be used to run a home-made immersion circulator.
+A proportional integral derivative (PID) controller that will be used to run a home-made immersion circulator.
 
 # Hardware
 
-Pico + SSD1351 Waveshare OLED + Rotary Encoder + a plug socket 
+Raspberry Pi Pico + SSD1351 Waveshare OLED + Rotary Encoder + temperature sensor + a plug socket 
 Warning: Don't heat using something that dislikes being power-cycled a lot. Something something NO WARRANTY
 
 # Installing it onto a Pico
