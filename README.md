@@ -6,13 +6,16 @@ A Raspberry Pi Pico based proportional integral derivative (PID) controller that
 
 # Hardware
 
-Pico + OLED + Rotary Encoder + plug socket
+Pico + SSD1351 Waveshare OLED + Rotary Encoder + a plug socket 
+Warning: Don't heat using something that dislikes being power-cycled a lot. Something something NO WARRANTY
 
 # Installing it onto a Pico
 
 # Using it
 
 # Video of it running
+
+From GitHub to GutGrub. Thank you, thank you, I'm here all week, don't forget to tip your waitress.
 
 # Contributing
 
