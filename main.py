@@ -1,6 +1,6 @@
 # main.py Script for grinder UI
-# first prototype is using an OLED and 5V stepper motor
-# the display relies on drivers made by Peter Hinch [link]
+# First prototype is using an OLED, rotary encoder and relay switch (linked to heating device of some sort)
+# The display relies on drivers made by Peter Hinch [link]
 
 # Released under the GPL 3.0
 
