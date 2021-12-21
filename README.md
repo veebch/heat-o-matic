@@ -8,7 +8,7 @@ A proportional integral derivative (PID) controller that will be used to run a h
 
 Raspberry Pi Pico + SSD1351 Waveshare OLED + Rotary Encoder + temperature sensor + a plug socket 
 
-**Warning: Don't heat using something that dislikes being power-cycled a lot. Something something NO WARRANTY**
+**Warning: Don't generate heat using something that dislikes being power-cycled a lot. Something something NO WARRANTY**
 
 # Installing it onto a Pico
 
