@@ -16,7 +16,7 @@ A proportional integral derivative (PID) controller that will be used to run a h
 
 # Installing it onto a Pico
 
-[rshell](https://github.com/dhylands/rshell) is going to be the way to do it. I vaguely recall there being a minor complication. Check notes. 
+There are a few files (TODO: Trim them down), so [rshell](https://github.com/dhylands/rshell) is going to be the way to do it. I vaguely recall there being a minor complication. Check notes. 
 
 # Using it
 
