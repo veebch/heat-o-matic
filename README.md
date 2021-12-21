@@ -2,7 +2,7 @@
 
 # Lazycook
 
-A proportional integral derivative (PID) controller that will be used to run a home-made immersion circulator. PID is a fancy way of saying that the code plays a game of 'Warmer', 'Colder' to get something to a value set using the UI. There is no doubt that that internet is littered with examples of these things, so it is primarily a didactic exercise that will use a few bits of code we've previously developed, and hopefully will make us a little smarter along the way.
+A proportional integral derivative (PID) controller that will be used to run a home-made immersion circulator. PID is a fancy way of saying that the code plays a game of 'Warmer', 'Colder' to get something to a particular value. There is no doubt that that internet is littered with examples of these things, so it is primarily a didactic exercise that will use a few bits of code we've previously developed, and hopefully it will make us a little smarter along the way.
 
 # Hardware
 
@@ -12,31 +12,38 @@ A proportional integral derivative (PID) controller that will be used to run a h
 - DS18B20 Stainless Steel Temperature Sensor 
 - a plug socket 
 
-**Warning: Don't generate heat using something that dislikes being power-cycled a lot. Something something NO WARRANTY**
+**Warning: Don't generate heat using something that dislikes being power-cycled a lot. This is GPL...NO WARRANTY**
 
-# Installing it onto a Pico
+# Installing Lazycook onto a Pico
 
 First flash the board with the latest version of micropython. 
 
-There are a few files, so [rshell](https://github.com/dhylands/rshell) is going to be the way to do it.
+Then clone this repository onto your computer
 
-     rshell --buffer-size=512 -p /dev/ttyACM0
+     git clone https://github.com/veebch/lazycook
+
+and move into the repository directory
+
+     cd lazycook
+
+There are a few files to copy to the pico, [ampy](https://learn.adafruit.com/micropython-basics-load-files-and-run-code/install-ampy) is a good way to do it.
+
+     sudo ampy -p /dev/ttyACM0 put ./
      
-Then copy all the files from this directory using the command
+substitute the device name to whatever the pico is on your system
 
-     cp -r * /pyboard/
 
-# Using it
+# Using Lazycook
 
-Plug it in, pop the temperature probe into the medium you are going to heat, plug the heat-providing device into the plug socket, pick a setpoint. Done.
+Plug it in, pop the temperature probe into the medium you are going to heat, plug the heat-providing device into the plug socket, pick a setpoint using the dial. That's it!
 
-# Video of it running
+# Video 
 
 From GitHub to GutGrub. Thank you, thank you, I'm here all week, don't forget to tip your waitress.
 
 # Contributing to the code
 
-If you look at this and think you can make it better, please fork the repository and use a feature branch. Pull requests are welcome.
+If you look at this and think you can make it better, please fork the repository and use a feature branch. Pull requests are welcome and encouraged.
 
 # Licence 
 GPL 3.0
