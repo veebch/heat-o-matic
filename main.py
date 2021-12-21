@@ -4,7 +4,7 @@
 
 # Released under the GPL 3.0
 
-# Fonts for Writer
+# Fonts for Writer (generated using https://github.com/peterhinch/micropython-font-to-py)
 import gui.fonts.freesans20 as freesans20
 import gui.fonts.quantico40 as quantico40
 from gui.core.writer import CWriter
@@ -21,8 +21,6 @@ import machine
 import gc
 
 # *** Choose your color display driver here ***
-# Driver supporting non-STM platforms
-# from drivers.ssd1351.ssd1351_generic import SSD1351 as SSD
 
 # STM specific driver
 from drivers.ssd1351.ssd1351 import SSD1351 as SSD
