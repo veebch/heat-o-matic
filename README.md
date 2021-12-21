@@ -26,7 +26,7 @@ and move into the repository directory
 
      cd lazyfood
 
-There are a few files, so [ampy](https://learn.adafruit.com/micropython-basics-load-files-and-run-code/install-ampy) is going to be the way to do it.
+There are a few files to copy to the pico, [ampy](https://learn.adafruit.com/micropython-basics-load-files-and-run-code/install-ampy) is a good way to do it.
 
      sudo ampy -p /dev/ttyACM0 put ./
 
