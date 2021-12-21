@@ -1,6 +1,6 @@
-# main.py Script for grinder UI
+# main.py - a script for making a temperature regulating PID, running using a Raspberry Pi Pico
 # First prototype is using an OLED, rotary encoder and relay switch (linked to heating device of some sort)
-# The display relies on drivers made by Peter Hinch [link]
+# The display relies on drivers made by Peter Hinch [link](https://github.com/peterhinch/micropython-nano-gui)
 
 # Released under the GPL 3.0
 
