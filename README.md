@@ -16,6 +16,8 @@ Raspberry Pi Pico + SSD1351 Waveshare OLED + Rotary Encoder + temperature sensor
 
 # Using it
 
+Plug it in, pop the temperature probe into the medium you are going to heat, plug the heat-providing device into the plug socket, pick a setpoint. Done.
+
 # Video of it running
 
 From GitHub to GutGrub. Thank you, thank you, I'm here all week, don't forget to tip your waitress.
