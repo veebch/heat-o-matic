@@ -17,7 +17,7 @@ Warning: Don't heat using something that dislikes being power-cycled a lot. Some
 
 From GitHub to GutGrub. Thank you, thank you, I'm here all week, don't forget to tip your waitress.
 
-# Contributing
+# Contributing to the code
 
 If you look at this and think it needs improving, fork it and make it better.
 
