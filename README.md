@@ -14,7 +14,7 @@ A proportional integral derivative (PID) controller that will be used to run a h
 
 **Warning: Don't generate heat using something that dislikes being power-cycled a lot. Something something NO WARRANTY**
 
-# Installing it onto a Pico
+# Installing Lazycook onto a Pico
 
 First flash the board with the latest version of micropython. 
 
@@ -31,11 +31,11 @@ There are a few files to copy to the pico, [ampy](https://learn.adafruit.com/mic
      sudo ampy -p /dev/ttyACM0 put ./
 
 
-# Using it
+# Using Lazycook
 
 Plug it in, pop the temperature probe into the medium you are going to heat, plug the heat-providing device into the plug socket, pick a setpoint. Done.
 
-# Video of it running
+# Video 
 
 From GitHub to GutGrub. Thank you, thank you, I'm here all week, don't forget to tip your waitress.
 
