@@ -2,7 +2,7 @@
 
 # Lazycook
 
-A proportional integral derivative (PID) controller that will be used to run a home-made immersion circulator.
+A proportional integral derivative (PID) controller that will be used to run a home-made immersion circulator. PID is a fancy way of saying that the code plays a game of 'Warmer', 'Colder' to get something to a value set using the UI. 
 
 # Hardware
 
