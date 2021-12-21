@@ -8,7 +8,9 @@ A Raspberry Pi Pico based proportional integral derivative (PID) controller that
 
 Pico + OLED + Rotary Encoder + plug socket
 
-# Installation
+# Installing it onto a Pico
+
+# Using it
 
 # Video
 
