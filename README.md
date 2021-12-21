@@ -28,7 +28,7 @@ From GitHub to GutGrub. Thank you, thank you, I'm here all week, don't forget to
 
 # Contributing to the code
 
-If you look at this and think it needs improving, fork it and make it better.
+If you look at this and think you can make it better, please fork the repository and use a feature branch. Pull requests are welcome.
 
 # Licence 
 GPL 3.0
