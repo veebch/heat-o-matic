@@ -26,6 +26,8 @@ Then copy all the files from this directory using the command
 
      cp -r * /pyboard/
 
+There are some issues with rshell, recursive copy hangs.
+
 # Using it
 
 Plug it in, pop the temperature probe into the medium you are going to heat, plug the heat-providing device into the plug socket, pick a setpoint. Done.
