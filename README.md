@@ -30,7 +30,7 @@ There are a few files to copy to the pico, [ampy](https://learn.adafruit.com/mic
 
      sudo ampy -p /dev/ttyACM0 put ./
      
-substitute the device name to whatever the pico is on your system
+substitute the device name to whatever the pico is on your system.
 
 
 # Using Lazycook
