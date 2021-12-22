@@ -8,8 +8,11 @@
 import gui.fonts.freesans20 as freesans20
 import gui.fonts.quantico40 as quantico40
 from gui.core.writer import CWriter
+from gui.core.colors import RED, BLUE, GREEN
+from gui.core.nanogui import refresh
 import time
-from machine import Pin,I2C 
+import utime
+from machine import Pin,I2C
 from rp2 import PIO, StateMachine, asm_pio
 import sys
 
@@ -60,7 +63,7 @@ outA = Pin(2, mode=Pin.IN) # Pin CLK of encoder
 outB = Pin(3, mode=Pin.IN) # Pin DT of encoder
 
 # Define relay and LED pins
-relaypin = Pin(15, mode = Pin.OUT, value = 0) 
+
 ledPin = Pin(25, mode = Pin.OUT, value = 0) # Onboard led on GPIO 25
 
 
@@ -104,7 +107,7 @@ def encoder(pin):
     # update the last state of outA pin / CLK pin with the current state
     outA_last = outA_current
     counter=min(90,counter)
-    counter=max(40,counter)
+    counter=max(45,counter)
     return(counter)
     
 
@@ -115,30 +118,28 @@ def button(pin):
     global button_current_state
     global stack
     if button_current_state != button_last_state:
-        print("Button is Pressed\n")
-        number=float(encoder(pin))
-        if stack[2]!=number:
-            stack.pop(0)
-            stack.append(number)
-            temperature=stack[2]
-            print("NewTemp",temperature)  
-            newsetpoint(temperature)
+        print('BUTTON')
         time.sleep(.1)
         
         button_last_state = button_current_state
     return
 
 def displaynum(num,temperature):
-    global stack
     #This needs to be fast for nice responsive increments
     #100 increments?
-    
-    wri = CWriter(ssd,quantico40, fgcolor=255,bgcolor=0)
-    CWriter.set_textpos(ssd, 50,0)  # verbose = False to suppress console output
+    delta=num-temperature
+    text=RED
+    if delta<3:
+        text=GREEN
+    wri = CWriter(ssd,quantico40, fgcolor=text,bgcolor=0)
+    CWriter.set_textpos(ssd, 25,0)  # verbose = False to suppress console output
     wri.printstring(str("{:.1f}".format(num))+" ")
     wrimem = CWriter(ssd,freesans20, fgcolor=255,bgcolor=0)
-    CWriter.set_textpos(ssd, 102,0)  
-    wrimem.printstring('now: '+str("{:.1f}".format(temperature))+" C")
+    CWriter.set_textpos(ssd, 75,0)  
+    wrimem.printstring('actual: '+str("{:.1f}".format(temperature))+" C ")
+    CWriter.set_textpos(ssd, 95,0)  
+    wrimem.printstring('delta:   '+str("{:.1f}".format(delta))+" C ")
+    
     ssd.show()
     return
 
@@ -168,21 +169,37 @@ switch.irq(trigger = Pin.IRQ_FALLING,
 
 # Main Logic
 pin=0
-stack = []
-stack.append(40.1)
-stack.append(40.1)
-stack.append(54.4)
+counter= 54.5
+integral = 0
+lastupdate = utime.time()  
+refresh(ssd, True)  # Initialise and clear display.
 
-
+lasterror = 0
+# The Tweakable values that will help tune for our use case
+checkin = 10
+Kp=3
+Ki=0.01
+Kd=0.01
 while True:
     counter=encoder(pin)
-    ds_sensor.convert_temp() 
-    displaynum(counter,float(ds_sensor.read_temp(roms[0])))
+    ds_sensor.convert_temp()
+    temp = ds_sensor.read_temp(roms[0])
+    displaynum(counter,float(temp))
     button_last_state = False # reset button last state to false again ,
                               # totally optional and application dependent,
                               # can also be done from other subroutines
                               # or from the main loop
-    
-
-
-
+    now = utime.time()
+    dt= now-lastupdate
+    if dt > checkin:
+        error=counter-temp
+        integral = integral + dt * error
+        derivative = (error - lasterror)/dt
+        lastupdate = now
+        lasterror = error
+        output = Kp * error + Ki * integral + Kd * derivative
+        if output>checkin:
+            relaypin = Pin(15, mode = Pin.OUT, value =1 )
+        else:
+            relaypin = Pin(15, mode = Pin.OUT, value =0 )
+            
