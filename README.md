@@ -9,8 +9,10 @@ A proportional integral derivative (PID) controller that will be used to run a h
 - Raspberry Pi Pico 
 - SSD1351 Waveshare OLED 
 - WGCD KY-040 Rotary Encoder
-- DS18B20 Stainless Steel Temperature Sensor 
+- DS18B20 Stainless Steel Temperature Sensor
+- A relay switch
 - A plug socket for the heating device, we use one of [these](https://www.galaxus.ch/de/s2/product/rommelsbacher-ts1502-wasserkocher-8406453?supplier=406802)
+- Wires Galore
 
 **Warning: Don't generate heat using something that dislikes being power-cycled a lot. This is GPL code.Yada yada NO WARRANTY**
 
@@ -32,6 +34,7 @@ There are a few files to copy to the pico, [ampy](https://learn.adafruit.com/mic
      
 substitute the device name to whatever the pico is on your system.
 
+# Wiring
 
 # Using Lazycook
 
