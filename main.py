@@ -59,6 +59,8 @@ switch = Pin(4, mode=Pin.IN, pull = Pin.PULL_UP) # inbuilt switch on the rotary 
 outA = Pin(2, mode=Pin.IN) # Pin CLK of encoder
 outB = Pin(3, mode=Pin.IN) # Pin DT of encoder
 
+# Define relay and LED pins
+relaypin = Pin(15, mode = Pin.OUT, value = 0) 
 ledPin = Pin(25, mode = Pin.OUT, value = 0) # Onboard led on GPIO 25
 
 
@@ -126,7 +128,7 @@ def button(pin):
         button_last_state = button_current_state
     return
 
-def displaynum(num):
+def displaynum(num,temperature):
     global stack
     #This needs to be fast for nice responsive increments
     #100 increments?
@@ -136,7 +138,7 @@ def displaynum(num):
     wri.printstring(str("{:.1f}".format(num))+" ")
     wrimem = CWriter(ssd,freesans20, fgcolor=255,bgcolor=0)
     CWriter.set_textpos(ssd, 102,0)  
-    wrimem.printstring('last set: '+str("{:.1f}".format(stack[1])))
+    wrimem.printstring('now: '+str("{:.1f}".format(temperature))+" C")
     ssd.show()
     return
 
@@ -173,15 +175,14 @@ stack.append(54.4)
 
 
 while True:
-    counter=encoder(pin)  
-    displaynum(float(counter))
+    counter=encoder(pin)
+    ds_sensor.convert_temp() 
+    displaynum(counter,float(ds_sensor.read_temp(roms[0])))
     button_last_state = False # reset button last state to false again ,
                               # totally optional and application dependent,
                               # can also be done from other subroutines
                               # or from the main loop
     
-    ds_sensor.convert_temp() 
-    for rom in roms:
-        print("Temperature: "+str(ds_sensor.read_temp(rom))+" C")
+
 
 
