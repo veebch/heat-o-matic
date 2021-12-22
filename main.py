@@ -19,6 +19,16 @@ import math
 
 import machine
 import gc
+import onewire, ds18x20
+
+# Look for thermometer
+ds_pin = machine.Pin(22)
+
+ds_sensor = ds18x20.DS18X20(onewire.OneWire(ds_pin))
+
+roms = ds_sensor.scan()
+
+print('Thermometer: ', roms)
 
 # *** Choose your color display driver here ***
 
@@ -81,11 +91,9 @@ def encoder(pin):
         # if DT value is not equal to CLK value
         # rotation is clockwise [or Counterclockwise ---> sensor dependent]
         if outB.value() != outA_current:
-            counter += .5
-            direction = "Clockwise"
+            counter += .1
         else:
-            counter -= .5
-            direction = "Counter Clockwise"
+            counter -= .1
         
         # print the data on screen
         #print("Counter : ", counter, "     |   Direction : ",direction)
@@ -93,8 +101,8 @@ def encoder(pin):
     
     # update the last state of outA pin / CLK pin with the current state
     outA_last = outA_current
-    counter=min(100,counter)
-    counter=max(0,counter)
+    counter=min(90,counter)
+    counter=max(30,counter)
     return(counter)
     
 
@@ -172,4 +180,7 @@ while True:
                               # totally optional and application dependent,
                               # can also be done from other subroutines
                               # or from the main loop
-
+    
+    ds_sensor.convert_temp() 
+    for rom in roms:
+        print("Temperature: "+str(ds_sensor.read_temp(rom))+" C")
