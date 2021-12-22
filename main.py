@@ -91,9 +91,9 @@ def encoder(pin):
         # if DT value is not equal to CLK value
         # rotation is clockwise [or Counterclockwise ---> sensor dependent]
         if outB.value() != outA_current:
-            counter += .1
+            counter += .05
         else:
-            counter -= .1
+            counter -= .05
         
         # print the data on screen
         #print("Counter : ", counter, "     |   Direction : ",direction)
@@ -102,7 +102,7 @@ def encoder(pin):
     # update the last state of outA pin / CLK pin with the current state
     outA_last = outA_current
     counter=min(90,counter)
-    counter=max(30,counter)
+    counter=max(40,counter)
     return(counter)
     
 
@@ -114,7 +114,7 @@ def button(pin):
     global stack
     if button_current_state != button_last_state:
         print("Button is Pressed\n")
-        number=int(encoder(pin))
+        number=float(encoder(pin))
         if stack[2]!=number:
             stack.pop(0)
             stack.append(number)
@@ -132,13 +132,11 @@ def displaynum(num):
     #100 increments?
     
     wri = CWriter(ssd,quantico40, fgcolor=255,bgcolor=0)
-    CWriter.set_textpos(ssd, 20,0)  # verbose = False to suppress console output
-    wri.printstring(str(num)+"   ")
+    CWriter.set_textpos(ssd, 50,0)  # verbose = False to suppress console output
+    wri.printstring(str("{:.1f}".format(num))+" ")
     wrimem = CWriter(ssd,freesans20, fgcolor=255,bgcolor=0)
-    CWriter.set_textpos(ssd, 70,0)  
-    wrimem.printstring('last three:')
-    CWriter.set_textpos(ssd, 100,0)  
-    wrimem.printstring(str(stack)+"    ")
+    CWriter.set_textpos(ssd, 102,0)  
+    wrimem.printstring('last set: '+str("{:.1f}".format(stack[1])))
     ssd.show()
     return
 
@@ -169,13 +167,14 @@ switch.irq(trigger = Pin.IRQ_FALLING,
 # Main Logic
 pin=0
 stack = []
-stack.append(0)
-stack.append(0)
-stack.append(0)
+stack.append(40.1)
+stack.append(40.1)
+stack.append(54.4)
+
 
 while True:
     counter=encoder(pin)  
-    displaynum(int(counter))
+    displaynum(float(counter))
     button_last_state = False # reset button last state to false again ,
                               # totally optional and application dependent,
                               # can also be done from other subroutines
@@ -184,3 +183,5 @@ while True:
     ds_sensor.convert_temp() 
     for rom in roms:
         print("Temperature: "+str(ds_sensor.read_temp(rom))+" C")
+
+
