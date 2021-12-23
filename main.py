@@ -173,7 +173,7 @@ lasterror = 0
 checkin = 5
 Kp=30.
 Ki=0.1
-Kd=2
+Kd=20
 output=100
 offstate=False
 while True:
