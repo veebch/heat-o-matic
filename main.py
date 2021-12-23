@@ -190,7 +190,7 @@ while True:
         if output<100 and offstate == False and dt > checkin * round(output)/100 :
             relaypin = Pin(15, mode = Pin.OUT, value =0 )
             offstate= True
-            utime.sleep(0.1)
+            utime.sleep(.1)
         if dt > checkin:
             error=counter-temp
             integral = integral + dt * error
@@ -198,12 +198,9 @@ while True:
             lastupdate = now
             lasterror = error
             output = Kp * error + Ki * integral + Kd * derivative
-            if output<0.:
-                output=0.
-            if output>100.:
-                output= 100.
+            output = max(min(100, n), 0) # Clamp output between 0 and 100
             print(output)
-            if output>10.:
+            if output>20.:  # If output is more than 20 percent, turn on the heater. Otherwise don't turn it on at all
                 relaypin = Pin(15, mode = Pin.OUT, value =1 )
                 offstate = False
             else:
