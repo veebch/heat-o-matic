@@ -177,7 +177,7 @@ lasterror = 0
 # The Tweakable values that will help tune for our use case
 checkin = 5
 Kp=30.
-Ki=0.01
+Ki=0.1
 Kd=2
 output=100
 offstate=False
