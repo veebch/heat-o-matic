@@ -11,6 +11,7 @@ from gui.core.writer import CWriter
 from gui.core.colors import RED, BLUE, GREEN
 from gui.core.nanogui import refresh
 import utime
+import machine
 from machine import Pin,I2C
 from rp2 import PIO, StateMachine, asm_pio
 import sys
@@ -122,7 +123,7 @@ def displaynum(num,temperature):
     #100 increments?
     delta=num-temperature
     text=GREEN
-    if delta>.3:
+    if abs(delta)>.3:
         text=RED
     wri = CWriter(ssd,quantico40, fgcolor=text,bgcolor=0)
     CWriter.set_textpos(ssd, 25,0)  # verbose = False to suppress console output
