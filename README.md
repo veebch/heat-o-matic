@@ -36,7 +36,7 @@ substitute the device name to whatever the pico is on your system.
 
 # Wiring
 
-Insert wiring diagram
+TODO: Insert wiring diagram
 
 # Using Lazycook
 
