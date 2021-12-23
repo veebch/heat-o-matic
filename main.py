@@ -55,10 +55,9 @@ spi = machine.SPI(0,
 gc.collect()  # Precaution before instantiating framebuf
 ssd = SSD(spi, pcs, pdc, prst, height)  # Create a display instance
 
-
 # define encoder pins 
 
-switch = Pin(4, mode=Pin.IN, pull = Pin.PULL_UP) # inbuilt switch on the rotary encoder, ACTIVE LOW
+#switch = Pin(4, mode=Pin.IN, pull = Pin.PULL_UP) # inbuilt switch on the rotary encoder, ACTIVE LOW
 outA = Pin(2, mode=Pin.IN) # Pin CLK of encoder
 outB = Pin(3, mode=Pin.IN) # Pin DT of encoder
 
@@ -128,17 +127,17 @@ def displaynum(num,temperature):
     #This needs to be fast for nice responsive increments
     #100 increments?
     delta=num-temperature
-    text=RED
-    if delta<3:
-        text=GREEN
+    text=GREEN
+    if delta>3:
+        text=RED
     wri = CWriter(ssd,quantico40, fgcolor=text,bgcolor=0)
     CWriter.set_textpos(ssd, 25,0)  # verbose = False to suppress console output
     wri.printstring(str("{:.1f}".format(num))+" ")
     wrimem = CWriter(ssd,freesans20, fgcolor=255,bgcolor=0)
     CWriter.set_textpos(ssd, 75,0)  
-    wrimem.printstring('actual: '+str("{:.1f}".format(temperature))+" C ")
+    wrimem.printstring('actual: '+str("{:.1f}".format(temperature))+"   ")
     CWriter.set_textpos(ssd, 95,0)  
-    wrimem.printstring('delta:   '+str("{:.1f}".format(delta))+" C ")
+    wrimem.printstring('delta:   '+str("{:.1f}".format(delta))+"   ")
     
     ssd.show()
     return
@@ -163,8 +162,8 @@ outB.irq(trigger = Pin.IRQ_RISING | Pin.IRQ_FALLING ,
               handler = encoder)
 
 # attach interrupt to the switch pin ( SW pin of encoder module )
-switch.irq(trigger = Pin.IRQ_FALLING,
-           handler = button)
+#switch.irq(trigger = Pin.IRQ_FALLING,
+#           handler = button)
 
 
 # Main Logic
@@ -176,30 +175,52 @@ refresh(ssd, True)  # Initialise and clear display.
 
 lasterror = 0
 # The Tweakable values that will help tune for our use case
-checkin = 10
-Kp=3
+checkin = 5
+Kp=30.
 Ki=0.01
-Kd=0.01
+Kd=2
+output=100
+offstate=False
 while True:
-    counter=encoder(pin)
-    ds_sensor.convert_temp()
-    temp = ds_sensor.read_temp(roms[0])
-    displaynum(counter,float(temp))
-    button_last_state = False # reset button last state to false again ,
-                              # totally optional and application dependent,
+    try:
+        counter=encoder(pin)
+        ds_sensor.convert_temp()
+        temp = ds_sensor.read_temp(roms[0])
+        displaynum(counter,float(temp))
+        button_last_state = False # reset button last state to false again ,
+# totally optional and application dependent,
                               # can also be done from other subroutines
                               # or from the main loop
-    now = utime.time()
-    dt= now-lastupdate
-    if dt > checkin:
-        error=counter-temp
-        integral = integral + dt * error
-        derivative = (error - lasterror)/dt
-        lastupdate = now
-        lasterror = error
-        output = Kp * error + Ki * integral + Kd * derivative
-        if output>checkin:
-            relaypin = Pin(15, mode = Pin.OUT, value =1 )
-        else:
+        now = utime.time()
+        dt= now-lastupdate
+        if dt > checkin * round(output)/100 and offstate == False:
             relaypin = Pin(15, mode = Pin.OUT, value =0 )
+            offstate= True
+            time.sleep(0.1)
+        if dt > checkin:
+            error=counter-temp
+            integral = integral + dt * error
+            derivative = (error - lasterror)/dt
+            lastupdate = now
+            lasterror = error
+            output = Kp * error + Ki * integral + Kd * derivative
+            if output<0.:
+                output=0.
+            if output>100.:
+                output= 100.
+            print(output)
+            if output>0.:
+                relaypin = Pin(15, mode = Pin.OUT, value =1 )
+                offstate = False
+            else:
+                relaypin = Pin(15, mode = Pin.OUT, value =0 )
+            time.sleep(.1)
+    except:
+        print('error encountered')
+        relaypin = Pin(15, mode = Pin.OUT, value =0 )
+        time.sleep(checkin)
             
+        
+
+
+
