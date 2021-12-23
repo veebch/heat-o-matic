@@ -10,17 +10,11 @@ import gui.fonts.quantico40 as quantico40
 from gui.core.writer import CWriter
 from gui.core.colors import RED, BLUE, GREEN
 from gui.core.nanogui import refresh
-import time
 import utime
 from machine import Pin,I2C
 from rp2 import PIO, StateMachine, asm_pio
 import sys
-
-import time
-
 import math
-
-import machine
 import gc
 import onewire, ds18x20
 
@@ -118,7 +112,7 @@ def button(pin):
     global stack
     if button_current_state != button_last_state:
         print('BUTTON')
-        time.sleep(.1)
+        utime.sleep(.1)
         
         button_last_state = button_current_state
     return
@@ -128,7 +122,7 @@ def displaynum(num,temperature):
     #100 increments?
     delta=num-temperature
     text=GREEN
-    if delta>3:
+    if delta>.3:
         text=RED
     wri = CWriter(ssd,quantico40, fgcolor=text,bgcolor=0)
     CWriter.set_textpos(ssd, 25,0)  # verbose = False to suppress console output
@@ -193,10 +187,10 @@ while True:
                               # or from the main loop
         now = utime.time()
         dt= now-lastupdate
-        if dt > checkin * round(output)/100 and offstate == False and output<100:
+        if output<100 and offstate == False and dt > checkin * round(output)/100 :
             relaypin = Pin(15, mode = Pin.OUT, value =0 )
             offstate= True
-            time.sleep(0.1)
+            utime.sleep(0.1)
         if dt > checkin:
             error=counter-temp
             integral = integral + dt * error
@@ -209,15 +203,16 @@ while True:
             if output>100.:
                 output= 100.
             print(output)
-            if output>0.:
+            if output>10.:
                 relaypin = Pin(15, mode = Pin.OUT, value =1 )
                 offstate = False
             else:
                 relaypin = Pin(15, mode = Pin.OUT, value =0 )
-            time.sleep(.1)
+                offstate = True
+            utime.sleep(.1)
     except:
         print('error encountered')
-        time.sleep(checkin)
+        utime.sleep(checkin)
             
         
 
