@@ -36,6 +36,8 @@ substitute the device name to whatever the pico is on your system.
 
 # Wiring
 
+Insert wiring diagram
+
 # Using Lazycook
 
 Plug it in, pop the temperature probe into the medium you are going to heat, plug the heat-providing device into the plug socket, pick a setpoint using the dial. That's it!
