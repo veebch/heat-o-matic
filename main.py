@@ -193,7 +193,7 @@ while True:
                               # or from the main loop
         now = utime.time()
         dt= now-lastupdate
-        if dt > checkin * round(output)/100 and offstate == False:
+        if dt > checkin * round(output)/100 and offstate == False and output<100:
             relaypin = Pin(15, mode = Pin.OUT, value =0 )
             offstate= True
             time.sleep(0.1)
@@ -217,7 +217,6 @@ while True:
             time.sleep(.1)
     except:
         print('error encountered')
-        relaypin = Pin(15, mode = Pin.OUT, value =0 )
         time.sleep(checkin)
             
         
