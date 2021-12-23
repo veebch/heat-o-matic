@@ -199,7 +199,7 @@ while True:
             lastupdate = now
             lasterror = error
             output = Kp * error + Ki * integral + Kd * derivative
-            output = max(min(100, n), 0) # Clamp output between 0 and 100
+            output = max(min(100, output), 0) # Clamp output between 0 and 100
             print(output)
             if output>20.:  # If output is more than 20 percent, turn on the heater. Otherwise don't turn it on at all
                 relaypin = Pin(15, mode = Pin.OUT, value =1 )
@@ -208,11 +208,12 @@ while True:
                 relaypin = Pin(15, mode = Pin.OUT, value =0 )
                 offstate = True
             utime.sleep(.1)
-    except:
-        print('error encountered')
+    except Exception as e:
+        print('error encountered:'+str(e))
         utime.sleep(checkin)
             
         
+
 
 
 
