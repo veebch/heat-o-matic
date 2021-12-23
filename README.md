@@ -9,7 +9,7 @@ A [proportional integral derivative](https://en.wikipedia.org/wiki/PID_controlle
 - Raspberry Pi Pico 
 - SSD1351 Waveshare OLED 
 - WGCD KY-040 Rotary Encoder
-- DS18B20 Stainless Steel Temperature Sensor
+- DS18B20 Stainless Steel Temperature Sensor (with 5K1 pull-up resistor)
 - A relay switch
 - A plug socket for the heating device, we use one of [these](https://www.galaxus.ch/de/s2/product/rommelsbacher-ts1502-wasserkocher-8406453?supplier=406802)
 - Wires Galore
