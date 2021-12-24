@@ -175,9 +175,9 @@ checkin = 5
 # Kp is steering harder the further off course you are,
 # Ki is steering into the wind to counteract a drift
 # Kd is slowing the turn as you approach your course
-Kp=60.   # Proportional term - Basic steering
-Ki=1.    # Integral term - Compensate for heat loss by vessel
-Kd=100.  # Derivative term - to prevent overshoot due to inertia - if it is zooming towards setpoint this
+Kp=6.   # Proportional term - Basic steering
+Ki=.01    # Integral term - Compensate for heat loss by vessel
+Kd=2000.# Derivative term - to prevent overshoot due to inertia - if it is zooming towards setpoint this
          # will cancel out the proportional term
 output=100
 offstate=False
@@ -203,8 +203,8 @@ while True:
             derivative = (error - lasterror)/dt
             lastupdate = now
             lasterror = error
-            output = Kp * error + Ki * integral + Kd * derivative
-            print(output)
+            output = Kp * error + Ki * integral + Kd * abs(derivative)
+            print(str(output)+"= Kp term: "+str(Kp*error)+" + Ki term:" + str(Ki*integral) + "+ Kd term: " + str(Kd*abs(derivative)))
             output = max(min(100, output), 0) # Clamp output between 0 and 100
             print(output)
             if output>20.:  # If output is more than 20 percent, turn on the heater. Otherwise don't turn it on at all
