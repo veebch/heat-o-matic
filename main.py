@@ -171,9 +171,14 @@ refresh(ssd, True)  # Initialise and clear display.
 lasterror = 0
 # The Tweakable values that will help tune for our use case
 checkin = 5
-Kp=30.
-Ki=0.1
-Kd=20
+# Stolen From Reddit: In terms of steering a ship:
+# Kp is steering harder the further off course you are,
+# Ki is steering into the wind to counteract a drift
+# Kd is slowing the turn as you approach your course
+Kp=60.   # Proportional term - Basic steering
+Ki=1.    # Integral term - Compensate for heat loss by vessel
+Kd=100.  # Derivative term - to prevent overshoot due to inertia - if it is zooming towards setpoint this
+         # will cancel out the proportional term
 output=100
 offstate=False
 while True:
@@ -199,6 +204,7 @@ while True:
             lastupdate = now
             lasterror = error
             output = Kp * error + Ki * integral + Kd * derivative
+            print(output)
             output = max(min(100, output), 0) # Clamp output between 0 and 100
             print(output)
             if output>20.:  # If output is more than 20 percent, turn on the heater. Otherwise don't turn it on at all
@@ -212,8 +218,3 @@ while True:
         print('error encountered:'+str(e))
         utime.sleep(checkin)
             
-        
-
-
-
-
