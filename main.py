@@ -35,9 +35,9 @@ from drivers.ssd1351.ssd1351 import SSD1351 as SSD
 
 height = 128  # height = 128 # 1.5 inch 128*128 display
 
-pdc = machine.Pin(20, machine.Pin.OUT, value=0)
-pcs = machine.Pin(17, machine.Pin.OUT, value=1)
-prst = machine.Pin(21, machine.Pin.OUT, value=1)
+pdc = Pin(20, machine.Pin.OUT, value=0)
+pcs = Pin(17, machine.Pin.OUT, value=1)
+prst = Pin(21, machine.Pin.OUT, value=1)
 spi = machine.SPI(0,
                   baudrate=10000000,
                   polarity=1,
@@ -52,7 +52,7 @@ ssd = SSD(spi, pcs, pdc, prst, height)  # Create a display instance
 
 # define encoder pins 
 
-#switch = Pin(4, mode=Pin.IN, pull = Pin.PULL_UP) # inbuilt switch on the rotary encoder, ACTIVE LOW
+switch = Pin(4, mode=Pin.IN, pull = Pin.PULL_UP) # inbuilt switch on the rotary encoder, ACTIVE LOW
 outA = Pin(2, mode=Pin.IN) # Pin CLK of encoder
 outB = Pin(3, mode=Pin.IN) # Pin DT of encoder
 
@@ -80,6 +80,7 @@ def encoder(pin):
     global direction
     global outA_last
     global outA_current
+    global outA
     
     # read the value of current state of outA pin / CLK pin
     outA_current = outA.value()
@@ -112,7 +113,7 @@ def button(pin):
     global button_current_state
     global stack
     if button_current_state != button_last_state:
-        print('BUTTON')
+        print('BUTTON PRESSED - UI')
         utime.sleep(.1)
         
         button_last_state = button_current_state
@@ -157,8 +158,8 @@ outB.irq(trigger = Pin.IRQ_RISING | Pin.IRQ_FALLING ,
               handler = encoder)
 
 # attach interrupt to the switch pin ( SW pin of encoder module )
-#switch.irq(trigger = Pin.IRQ_FALLING,
-#           handler = button)
+switch.irq(trigger = Pin.IRQ_FALLING,
+           handler = button)
 
 
 # Main Logic
