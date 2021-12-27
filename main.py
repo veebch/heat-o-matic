@@ -47,10 +47,10 @@ gc.collect()  # Precaution before instantiating framebuf
 ssd = SSD(spi, pcs, pdc, prst, height)  # Create a display instance
 ssd.fill(0)
 wri = CWriter(ssd,freesans20, fgcolor=GREY,bgcolor=0)
-CWriter.set_textpos(ssd, 90,20)
+CWriter.set_textpos(ssd, 90,25)
 wri.printstring('veeb.ch/')
 wri = CWriter(ssd,freesans20, fgcolor=GREY,bgcolor=0)
-CWriter.set_textpos(ssd, 45,20)
+CWriter.set_textpos(ssd, 45,51)
 wri.printstring(':-)')
 
 ssd.show()
@@ -218,7 +218,7 @@ while True:
                 output = Kp * error + Ki * integral + Kd * derivative
                 print(str(output)+"= Kp term: "+str(Kp*error)+" + Ki term:" + str(Ki*integral) + "+ Kd term: " + str(Kd*derivative))
                 output = max(min(100, output), 0) # Clamp output between 0 and 100
-                if boil:
+                if boil and error>.5:
                     output=100
                 print(output)
                 if output>30.:  # If output is more than 30 percent, turn on the heater. Otherwise don't turn it on at all (not enough time for it to warm up)
@@ -238,5 +238,3 @@ while True:
             refresh(ssd, True)  # Clear any prior image
             relaypin = Pin(15, mode = Pin.OUT, value =0 ) 
         
-
-
