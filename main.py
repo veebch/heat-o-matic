@@ -111,10 +111,9 @@ def button(pin):
     global button_current_state
     global powerup
     if button_current_state != button_last_state:
-        togglesleep()
         utime.sleep(.2)       
         button_last_state = button_current_state
-        powerup = not powerup
+        powerup = not powerup                    # Toggle power flag
         print('power:'+str(powerup))
     return
 
@@ -141,14 +140,7 @@ def beanaproblem(string):
     relaypin = Pin(15, mode = Pin.OUT, value =0 )
     utime.sleep(2)
     
-def togglesleep():
-    relaypin = Pin(15, mode = Pin.OUT, value =0 )
-    
 # Attach interrupt to Pins
-""" If you need to write a program which triggers an interrupt whenever
-    a pin changes, without caring whether it’s rising or falling,
-    you can combine the two triggers using a pipe or
-    a vertical bar symbol ( | ) . Logical AND """
 
 # attach interrupt to the outA pin ( CLK pin of encoder module )
 outA.irq(trigger = Pin.IRQ_RISING | Pin.IRQ_FALLING,
@@ -235,4 +227,4 @@ while True:
             utime.sleep(checkin)
     else:
         refresh(ssd, True)  # Clear any prior image
-
+        relaypin = Pin(15, mode = Pin.OUT, value =0 ) 
