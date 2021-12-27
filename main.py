@@ -226,5 +226,8 @@ while True:
             print('error encountered:'+str(e))
             utime.sleep(checkin)
     else:
-        refresh(ssd, True)  # Clear any prior image
-        relaypin = Pin(15, mode = Pin.OUT, value =0 ) 
+        if button_last_state == False:  # To prevent clearing on every cycle when power off
+            refresh(ssd, True)  # Clear any prior image
+            relaypin = Pin(15, mode = Pin.OUT, value =0 ) 
+        
+
