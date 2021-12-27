@@ -8,7 +8,7 @@
 import gui.fonts.freesans20 as freesans20
 import gui.fonts.quantico40 as quantico40
 from gui.core.writer import CWriter
-from gui.core.colors import RED, BLUE, GREEN
+from gui.core.colors import RED, BLUE, GREEN, GREY
 from gui.core.nanogui import refresh
 import utime
 from machine import Pin,I2C, SPI
@@ -46,9 +46,13 @@ spi = SPI(0,
 gc.collect()  # Precaution before instantiating framebuf
 ssd = SSD(spi, pcs, pdc, prst, height)  # Create a display instance
 ssd.fill(0)
-wri = CWriter(ssd,freesans20, fgcolor=220,bgcolor=0)
-CWriter.set_textpos(ssd, 85,40)
+wri = CWriter(ssd,freesans20, fgcolor=GREY,bgcolor=0)
+CWriter.set_textpos(ssd, 90,20)
 wri.printstring('veeb.ch/')
+wri = CWriter(ssd,freesans20, fgcolor=GREY,bgcolor=0)
+CWriter.set_textpos(ssd, 45,20)
+wri.printstring(':-)')
+
 ssd.show()
 utime.sleep(3)
 
