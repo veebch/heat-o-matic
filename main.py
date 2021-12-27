@@ -5,6 +5,7 @@
 # Released under the GPL 3.0
 
 # Fonts for Writer (generated using https://github.com/peterhinch/micropython-font-to-py)
+
 import gui.fonts.freesans20 as freesans20
 import gui.fonts.quantico40 as quantico40
 from gui.core.writer import CWriter
@@ -23,14 +24,14 @@ ds_pin = Pin(22)
 ds_sensor = ds18x20.DS18X20(onewire.OneWire(ds_pin))
 roms = ds_sensor.scan()
 print('Thermometer: ', roms)
-
-# *** Choose your color display driver here ***
-
-# STM specific driver
+if roms=='':
+    print('No Thermometer. STOP')
+    beanaproblem('No Therm.')
+    utime.sleep(60)
+    sys.exit()
+# Display setup
 from drivers.ssd1351.ssd1351 import SSD1351 as SSD
-
-height = 128  # height = 128 # 1.5 inch 128*128 display
-
+height = 128  
 pdc = Pin(20, Pin.OUT, value=0)
 pcs = Pin(17, Pin.OUT, value=1)
 prst = Pin(21, Pin.OUT, value=1)
@@ -115,6 +116,7 @@ def button(pin):
         button_last_state = button_current_state
     return
 
+# Screen to display on OLED during heating
 def displaynum(num,temperature):
     #This needs to be fast for nice responsive increments
     #100 increments?
@@ -132,10 +134,10 @@ def displaynum(num,temperature):
     ssd.show()
     return
 
-def newsetpoint(offset):
-    print('offset:',float(offset))
-    # This is where the temperature needs to go
-    return
+def beanaproblem(string):
+    wrimem = CWriter(ssd,freesans20, fgcolor=255,bgcolor=0)
+    CWriter.set_textpos(ssd, 90,0)  
+    wrimem.printstring(string)
 
 # Attach interrupt to Pins
 """ If you need to write a program which triggers an interrupt whenever
@@ -164,7 +166,7 @@ lastupdate = utime.time()
 refresh(ssd, True)  # Initialise and clear display.
 
 lasterror = 0
-# The Tweakable values that will help tune for our use case
+# The Tweakable values that will help tune for our use case. TODO: Make accessible via menu on OLED
 checkin = 5
 # Stolen From Reddit: In terms of steering a ship:
 # Kp is steering harder the further off course you are,
@@ -173,10 +175,11 @@ checkin = 5
 Kp=75.   # Proportional term - Basic steering
 Ki=.01   # Integral term - Compensate for heat loss by vessel
 Kd=200.  # Derivative term - to prevent overshoot due to inertia - if it is zooming towards setpoint this
-         # will cancel out the proportional term
+         # will cancel out the proportional term due to the large negative gradient
 output=0
 offstate=False
-boil = False
+boil = False  # The override flag that will just get to a boil as quick as possible. (Assumes water at sea level, which is ok for now)
+# Heating loop - Default behaviour
 while True:
     try:
         counter=encoder(pin)
@@ -220,5 +223,6 @@ while True:
             utime.sleep(.1)
     except Exception as e:
         # Put something to output to OLED screen
+        beanaproblem('error.')
         print('error encountered:'+str(e))
         utime.sleep(checkin)
