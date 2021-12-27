@@ -11,8 +11,7 @@ from gui.core.writer import CWriter
 from gui.core.colors import RED, BLUE, GREEN
 from gui.core.nanogui import refresh
 import utime
-import machine
-from machine import Pin,I2C
+from machine import Pin,I2C, SPI
 from rp2 import PIO, StateMachine, asm_pio
 import sys
 import math
@@ -20,7 +19,7 @@ import gc
 import onewire, ds18x20
 
 # Look for thermometer
-ds_pin = machine.Pin(22)
+ds_pin = Pin(22)
 
 ds_sensor = ds18x20.DS18X20(onewire.OneWire(ds_pin))
 
@@ -35,18 +34,18 @@ from drivers.ssd1351.ssd1351 import SSD1351 as SSD
 
 height = 128  # height = 128 # 1.5 inch 128*128 display
 
-pdc = Pin(20, machine.Pin.OUT, value=0)
-pcs = Pin(17, machine.Pin.OUT, value=1)
-prst = Pin(21, machine.Pin.OUT, value=1)
-spi = machine.SPI(0,
+pdc = Pin(20, Pin.OUT, value=0)
+pcs = Pin(17, Pin.OUT, value=1)
+prst = Pin(21, Pin.OUT, value=1)
+spi = SPI(0,
                   baudrate=10000000,
                   polarity=1,
                   phase=1,
                   bits=8,
-                  firstbit=machine.SPI.MSB,
-                  sck=machine.Pin(18),
-                  mosi=machine.Pin(19),
-                  miso=machine.Pin(16))
+                  firstbit=SPI.MSB,
+                  sck=Pin(18),
+                  mosi=Pin(19),
+                  miso=Pin(16))
 gc.collect()  # Precaution before instantiating framebuf
 ssd = SSD(spi, pcs, pdc, prst, height)  # Create a display instance
 
@@ -80,7 +79,7 @@ def encoder(pin):
     global direction
     global outA_last
     global outA_current
-    global outA     # Alternative would be to pass outA.value() as a parameter
+    global outA
     
     # read the value of current state of outA pin / CLK pin
     outA_current = outA.value()
@@ -127,10 +126,10 @@ def displaynum(num,temperature):
     if abs(delta)>.3:
         text=RED
     wri = CWriter(ssd,quantico40, fgcolor=text,bgcolor=0)
-    CWriter.set_textpos(ssd, 25,0)  # verbose = False to suppress console output
+    CWriter.set_textpos(ssd, 35,0)  # verbose = False to suppress console output
     wri.printstring(str("{:.1f}".format(num))+" ")
     wrimem = CWriter(ssd,freesans20, fgcolor=255,bgcolor=0)
-    CWriter.set_textpos(ssd, 80,0)  
+    CWriter.set_textpos(ssd, 90,0)  
     wrimem.printstring('actual: '+str("{:.1f}".format(temperature))+" C ")
     
     ssd.show()
@@ -226,4 +225,3 @@ while True:
         # Put something to output to OLED screen
         print('error encountered:'+str(e))
         utime.sleep(checkin)
-            
