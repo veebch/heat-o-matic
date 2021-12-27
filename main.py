@@ -18,13 +18,10 @@ import math
 import gc
 import onewire, ds18x20
 
-# Look for thermometer
+# Look for thermometer (add OLED complaint if one can't be seen)
 ds_pin = Pin(22)
-
 ds_sensor = ds18x20.DS18X20(onewire.OneWire(ds_pin))
-
 roms = ds_sensor.scan()
-
 print('Thermometer: ', roms)
 
 # *** Choose your color display driver here ***
