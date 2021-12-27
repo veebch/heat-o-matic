@@ -80,7 +80,7 @@ def encoder(pin):
     global direction
     global outA_last
     global outA_current
-    global outA
+    global outA     # Alternative would be to pass outA.value() as a parameter
     
     # read the value of current state of outA pin / CLK pin
     outA_current = outA.value()
@@ -130,10 +130,8 @@ def displaynum(num,temperature):
     CWriter.set_textpos(ssd, 25,0)  # verbose = False to suppress console output
     wri.printstring(str("{:.1f}".format(num))+" ")
     wrimem = CWriter(ssd,freesans20, fgcolor=255,bgcolor=0)
-    CWriter.set_textpos(ssd, 75,0)  
-    wrimem.printstring('actual: '+str("{:.1f}".format(temperature))+"   ")
-    CWriter.set_textpos(ssd, 95,0)  
-    wrimem.printstring('delta:   '+str("{:.1f}".format(delta))+"   ")
+    CWriter.set_textpos(ssd, 80,0)  
+    wrimem.printstring('actual: '+str("{:.1f}".format(temperature))+" C ")
     
     ssd.show()
     return
@@ -182,16 +180,23 @@ Kd=200.  # Derivative term - to prevent overshoot due to inertia - if it is zoom
          # will cancel out the proportional term
 output=0
 offstate=False
+boil = False
 while True:
     try:
         counter=encoder(pin)
+        # If the counter is set to 100 and we assume we're heating water, 100 degrees is as hot as the water can get,
+        # so the output should just be set to 100 until the target is reached. Much quicker for this use case.
+        if counter==100:
+            boil = True
+        else:
+            boil = False
         ds_sensor.convert_temp()
         temp = ds_sensor.read_temp(roms[0])
         displaynum(counter,float(temp))
         button_last_state = False # reset button last state to false again ,
-# totally optional and application dependent,
-                              # can also be done from other subroutines
-                              # or from the main loop
+                                  # totally optional and application dependent,
+                                  # can also be done from other subroutines
+                                  # or from the main loop
         now = utime.time()
         dt= now-lastupdate
         if output<100 and offstate == False and dt > checkin * round(output)/100 :
@@ -207,8 +212,10 @@ while True:
             output = Kp * error + Ki * integral + Kd * derivative
             print(str(output)+"= Kp term: "+str(Kp*error)+" + Ki term:" + str(Ki*integral) + "+ Kd term: " + str(Kd*derivative))
             output = max(min(100, output), 0) # Clamp output between 0 and 100
+            if boil:
+                output=100
             print(output)
-            if output>30.:  # If output is more than 20 percent, turn on the heater. Otherwise don't turn it on at all
+            if output>30.:  # If output is more than 30 percent, turn on the heater. Otherwise don't turn it on at all (not enough time for it to warm up)
                 relaypin = Pin(15, mode = Pin.OUT, value =1 )
                 offstate = False
             else:
@@ -216,11 +223,7 @@ while True:
                 offstate = True
             utime.sleep(.1)
     except Exception as e:
+        # Put something to output to OLED screen
         print('error encountered:'+str(e))
         utime.sleep(checkin)
             
-        
-
-
-
-
