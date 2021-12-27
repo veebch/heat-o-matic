@@ -18,6 +18,8 @@ import sys
 import math
 import gc
 import onewire, ds18x20
+# Display setup
+from drivers.ssd1351.ssd1351 import SSD1351 as SSD
 
 # Look for thermometer (add OLED complaint if one can't be seen)
 ds_pin = Pin(22)
@@ -29,8 +31,7 @@ if roms=='':
     beanaproblem('No Therm.')
     utime.sleep(60)
     sys.exit()
-# Display setup
-from drivers.ssd1351.ssd1351 import SSD1351 as SSD
+
 height = 128  
 pdc = Pin(20, Pin.OUT, value=0)
 pcs = Pin(17, Pin.OUT, value=1)
@@ -108,12 +109,13 @@ def button(pin):
     # get global variable
     global button_last_state
     global button_current_state
-    global stack
+    global powerup
     if button_current_state != button_last_state:
-        print('BUTTON PRESSED - UI')
-        utime.sleep(.1)
-        
+        togglesleep()
+        utime.sleep(.2)       
         button_last_state = button_current_state
+        powerup = not powerup
+        print('power:'+str(powerup))
     return
 
 # Screen to display on OLED during heating
@@ -135,10 +137,13 @@ def displaynum(num,temperature):
     return
 
 def beanaproblem(string):
-    wrimem = CWriter(ssd,freesans20, fgcolor=255,bgcolor=0)
-    CWriter.set_textpos(ssd, 90,0)  
-    wrimem.printstring(string)
-
+    refresh(ssd, True)  # Clear any prior image
+    relaypin = Pin(15, mode = Pin.OUT, value =0 )
+    utime.sleep(2)
+    
+def togglesleep():
+    relaypin = Pin(15, mode = Pin.OUT, value =0 )
+    
 # Attach interrupt to Pins
 """ If you need to write a program which triggers an interrupt whenever
     a pin changes, without caring whether it’s rising or falling,
@@ -154,7 +159,7 @@ outB.irq(trigger = Pin.IRQ_RISING | Pin.IRQ_FALLING ,
               handler = encoder)
 
 # attach interrupt to the switch pin ( SW pin of encoder module )
-switch.irq(trigger = Pin.IRQ_FALLING,
+switch.irq(trigger = Pin.IRQ_FALLING | Pin.IRQ_RISING ,
            handler = button)
 
 
@@ -180,49 +185,54 @@ output=0
 offstate=False
 boil = False  # The override flag that will just get to a boil as quick as possible. (Assumes water at sea level, which is ok for now)
 # Heating loop - Default behaviour
+powerup = True
 while True:
-    try:
-        counter=encoder(pin)
-        # If the counter is set to 100 and we assume we're heating water, 100 degrees is as hot as the water can get,
-        # so the output should just be set to 100 until the target is reached. Much quicker for this use case.
-        if counter==100:
-            boil = True
-        else:
-            boil = False
-        ds_sensor.convert_temp()
-        temp = ds_sensor.read_temp(roms[0])
-        displaynum(counter,float(temp))
-        button_last_state = False # reset button last state to false again ,
-                                  # totally optional and application dependent,
-                                  # can also be done from other subroutines
-                                  # or from the main loop
-        now = utime.time()
-        dt= now-lastupdate
-        if output<100 and offstate == False and dt > checkin * round(output)/100 :
-            relaypin = Pin(15, mode = Pin.OUT, value =0 )
-            offstate= True
-            utime.sleep(.1)
-        if dt > checkin:
-            error=counter-temp
-            integral = integral + dt * error
-            derivative = (error - lasterror)/dt
-            lastupdate = now
-            lasterror = error
-            output = Kp * error + Ki * integral + Kd * derivative
-            print(str(output)+"= Kp term: "+str(Kp*error)+" + Ki term:" + str(Ki*integral) + "+ Kd term: " + str(Kd*derivative))
-            output = max(min(100, output), 0) # Clamp output between 0 and 100
-            if boil:
-                output=100
-            print(output)
-            if output>30.:  # If output is more than 30 percent, turn on the heater. Otherwise don't turn it on at all (not enough time for it to warm up)
-                relaypin = Pin(15, mode = Pin.OUT, value =1 )
-                offstate = False
+    if powerup:
+        try:
+            counter=encoder(pin)
+            # If the counter is set to 100 and we assume we're heating water, 100 degrees is as hot as the water can get,
+            # so the output should just be set to 100 until the target is reached. Much quicker for this use case.
+            if counter==100:
+                boil = True
             else:
+                boil = False
+            ds_sensor.convert_temp()
+            temp = ds_sensor.read_temp(roms[0])
+            displaynum(counter,float(temp))
+            button_last_state = False # reset button last state to false again ,
+                                      # totally optional and application dependent,
+                                      # can also be done from other subroutines
+                                      # or from the main loop
+            now = utime.time()
+            dt= now-lastupdate
+            if output<100 and offstate == False and dt > checkin * round(output)/100 :
                 relaypin = Pin(15, mode = Pin.OUT, value =0 )
-                offstate = True
-            utime.sleep(.1)
-    except Exception as e:
-        # Put something to output to OLED screen
-        beanaproblem('error.')
-        print('error encountered:'+str(e))
-        utime.sleep(checkin)
+                offstate= True
+                utime.sleep(.1)
+            if dt > checkin:
+                error=counter-temp
+                integral = integral + dt * error
+                derivative = (error - lasterror)/dt
+                lastupdate = now
+                lasterror = error
+                output = Kp * error + Ki * integral + Kd * derivative
+                print(str(output)+"= Kp term: "+str(Kp*error)+" + Ki term:" + str(Ki*integral) + "+ Kd term: " + str(Kd*derivative))
+                output = max(min(100, output), 0) # Clamp output between 0 and 100
+                if boil:
+                    output=100
+                print(output)
+                if output>30.:  # If output is more than 30 percent, turn on the heater. Otherwise don't turn it on at all (not enough time for it to warm up)
+                    relaypin = Pin(15, mode = Pin.OUT, value =1 )
+                    offstate = False
+                else:
+                    relaypin = Pin(15, mode = Pin.OUT, value =0 )
+                    offstate = True
+                utime.sleep(.1)
+        except Exception as e:
+            # Put something to output to OLED screen
+            beanaproblem('error.')
+            print('error encountered:'+str(e))
+            utime.sleep(checkin)
+    else:
+        refresh(ssd, True)  # Clear any prior image
+
