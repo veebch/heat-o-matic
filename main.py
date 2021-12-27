@@ -1,6 +1,6 @@
 # main.py - a script for making a temperature regulating PID, running using a Raspberry Pi Pico
 # First prototype is using an OLED, rotary encoder and a relay switch (linked to heating device of some sort)
-# The display relies on drivers made by Peter Hinch [link](https://github.com/peterhinch/micropython-nano-gui)
+# The display uses drivers made by Peter Hinch [link](https://github.com/peterhinch/micropython-nano-gui)
 
 # Released under the GPL 3.0
 
@@ -19,7 +19,6 @@ import gc
 import onewire, ds18x20
 # Display setup
 from drivers.ssd1351.ssd1351 import SSD1351 as SSD
-
 # Look for thermometer (add OLED complaint if one can't be seen)
 ds_pin = Pin(22)
 ds_sensor = ds18x20.DS18X20(onewire.OneWire(ds_pin))
@@ -46,6 +45,12 @@ spi = SPI(0,
                   miso=Pin(16))
 gc.collect()  # Precaution before instantiating framebuf
 ssd = SSD(spi, pcs, pdc, prst, height)  # Create a display instance
+ssd.fill(0)
+wri = CWriter(ssd,freesans20, fgcolor=220,bgcolor=0)
+CWriter.set_textpos(ssd, 85,40)
+wri.printstring('veeb.ch/')
+ssd.show()
+utime.sleep(3)
 
 # define encoder pins 
 
@@ -229,4 +234,5 @@ while True:
             refresh(ssd, True)  # Clear any prior image
             relaypin = Pin(15, mode = Pin.OUT, value =0 ) 
         
+
 
