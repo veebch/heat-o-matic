@@ -8,7 +8,6 @@
 import gui.fonts.freesans20 as freesans20
 import gui.fonts.quantico40 as quantico40
 from gui.core.writer import CWriter
-from gui.core.colors import RED, BLUE, GREEN, GREY
 from gui.core.nanogui import refresh
 import utime
 from machine import Pin,I2C, SPI
@@ -18,7 +17,7 @@ import math
 import gc
 import onewire, ds18x20
 # Display setup
-from drivers.ssd1351.ssd1351 import SSD1351 as SSD
+from drivers.ssd1351.ssd1351_16bit import SSD1351 as SSD
 # Look for thermometer (add OLED complaint if one can't be seen)
 ds_pin = Pin(22)
 ds_sensor = ds18x20.DS18X20(onewire.OneWire(ds_pin))
@@ -46,15 +45,15 @@ spi = SPI(0,
 gc.collect()  # Precaution before instantiating framebuf
 ssd = SSD(spi, pcs, pdc, prst, height)  # Create a display instance
 ssd.fill(0)
-wri = CWriter(ssd,freesans20, fgcolor=GREY,bgcolor=0)
-CWriter.set_textpos(ssd, 90,25)
-wri.printstring('veeb.ch/')
-wri = CWriter(ssd,freesans20, fgcolor=GREY,bgcolor=0)
+
+wri = CWriter(ssd,freesans20, fgcolor=SSD.rgb(100,100,100),bgcolor=0)
 CWriter.set_textpos(ssd, 45,51)
 wri.printstring(':-)')
+CWriter.set_textpos(ssd, 90,25)
+wri.printstring('veeb.ch/')
 
 ssd.show()
-utime.sleep(3)
+utime.sleep(4)
 
 # define encoder pins 
 
@@ -130,13 +129,13 @@ def displaynum(num,temperature):
     #This needs to be fast for nice responsive increments
     #100 increments?
     delta=num-temperature
-    text=GREEN
+    text=SSD.rgb(0,265,0)
     if abs(delta)>.3:
-        text=RED
+        text=SSD.rgb(255,0,0)
     wri = CWriter(ssd,quantico40, fgcolor=text,bgcolor=0)
     CWriter.set_textpos(ssd, 35,0)  # verbose = False to suppress console output
     wri.printstring(str("{:.1f}".format(num))+" ")
-    wrimem = CWriter(ssd,freesans20, fgcolor=255,bgcolor=0)
+    wrimem = CWriter(ssd,freesans20, fgcolor=SSD.rgb(255,255,255),bgcolor=0)
     CWriter.set_textpos(ssd, 90,0)  
     wrimem.printstring('actual: '+str("{:.1f}".format(temperature))+" C ")
     
@@ -238,3 +237,4 @@ while True:
             refresh(ssd, True)  # Clear any prior image
             relaypin = Pin(15, mode = Pin.OUT, value =0 ) 
         
+
