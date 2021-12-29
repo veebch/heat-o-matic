@@ -88,8 +88,11 @@ def encoder(pin):
     global outA
     
     # read the value of current state of outA pin / CLK pin
-    outA_current = outA.value()
-    
+    try:
+        outA_current = outA.value()
+    except:
+        print('outA not defined')
+        outA_current = outA_last
     # if current state is not same as the last stare , encoder has rotated
     if outA_current != outA_last:
         # read outB pin/ DT pin
@@ -120,7 +123,7 @@ def button(pin):
     if button_current_state != button_last_state:
         utime.sleep(.2)       
         button_last_state = button_current_state
-        powerup = not powerup                    # Toggle power flag
+#        powerup = not powerup                    # Toggle power flag - disabled for now
         print('power:'+str(powerup))
     return
 
@@ -129,8 +132,8 @@ def displaynum(num,temperature):
     #This needs to be fast for nice responsive increments
     #100 increments?
     delta=num-temperature
-    text=SSD.rgb(0,265,0)
-    if abs(delta)>.3:
+    text=SSD.rgb(0,255,0)
+    if abs(delta)>=1:
         text=SSD.rgb(255,0,0)
     wri = CWriter(ssd,quantico40, fgcolor=text,bgcolor=0)
     CWriter.set_textpos(ssd, 35,0)  # verbose = False to suppress console output
@@ -158,7 +161,7 @@ outB.irq(trigger = Pin.IRQ_RISING | Pin.IRQ_FALLING ,
               handler = encoder)
 
 # attach interrupt to the switch pin ( SW pin of encoder module )
-switch.irq(trigger = Pin.IRQ_FALLING | Pin.IRQ_RISING ,
+switch.irq(trigger = Pin.IRQ_FALLING ,
            handler = button)
 
 
@@ -176,9 +179,9 @@ checkin = 5
 # Kp is steering harder the further off course you are,
 # Ki is steering into the wind to counteract a drift
 # Kd is slowing the turn as you approach your course
-Kp=75.   # Proportional term - Basic steering
+Kp=10.   # Proportional term - Basic steering
 Ki=.01   # Integral term - Compensate for heat loss by vessel
-Kd=200.  # Derivative term - to prevent overshoot due to inertia - if it is zooming towards setpoint this
+Kd=100.  # Derivative term - to prevent overshoot due to inertia - if it is zooming towards setpoint this
          # will cancel out the proportional term due to the large negative gradient
 output=0
 offstate=False
@@ -220,7 +223,7 @@ while True:
                 if boil and error>.5:
                     output=100
                 print(output)
-                if output>30.:  # If output is more than 30 percent, turn on the heater. Otherwise don't turn it on at all (not enough time for it to warm up)
+                if output>0:  
                     relaypin = Pin(15, mode = Pin.OUT, value =1 )
                     offstate = False
                 else:
