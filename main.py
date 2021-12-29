@@ -182,7 +182,7 @@ checkin = 5
 # Kd is slowing the turn as you approach your course
 Kp=10.   # Proportional term - Basic steering
 Ki=.01   # Integral term - Compensate for heat loss by vessel
-Kd=100.  # Derivative term - to prevent overshoot due to inertia - if it is zooming towards setpoint this
+Kd=150.  # Derivative term - to prevent overshoot due to inertia - if it is zooming towards setpoint this
          # will cancel out the proportional term due to the large negative gradient
 output=0
 offstate=False
@@ -216,8 +216,6 @@ while True:
                 error=counter-temp
                 integral = integral + dt * error
                 derivative = (error - lasterror)/dt
-                lastupdate = now
-                lasterror = error
                 output = Kp * error + Ki * integral + Kd * derivative
                 print(str(output)+"= Kp term: "+str(Kp*error)+" + Ki term:" + str(Ki*integral) + "+ Kd term: " + str(Kd*derivative))
                 output = max(min(100, output), 0) # Clamp output between 0 and 100
@@ -231,6 +229,8 @@ while True:
                     relaypin = Pin(15, mode = Pin.OUT, value =0 )
                     offstate = True
                 utime.sleep(.1)
+                lastupdate = now
+                lasterror = error
         except Exception as e:
             # Put something to output to OLED screen
             beanaproblem('error.')
