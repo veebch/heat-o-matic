@@ -92,7 +92,8 @@ def encoder(pin):
         outA_current = outA.value()
     except:
         print('outA not defined')
-        outA_current = outA_last
+        outA_current = 0
+        outA_last = 0
     # if current state is not same as the last stare , encoder has rotated
     if outA_current != outA_last:
         # read outB pin/ DT pin
