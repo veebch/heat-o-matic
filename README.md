@@ -6,7 +6,7 @@
 
 A [proportional integral derivative](https://en.wikipedia.org/wiki/PID_controller) (PID) controller that will be used to run a home-made precision heater. PID is a fancy way of saying that the code plays a game of 'Warmer', 'Colder' to get something to a particular value (in our example, a particular temperature). The internet is littered with examples of these things, so it is primarily a didactic exercise that will use a few bits of code we've previously developed, and hopefully it will make us a little smarter along the way.
 
-(You can use a PID to regulate other things depending on the sensor/device it was powering. It just needs to measure something and to be able to influence that measurement. People have used PID controllers to make robots follow lines, and other things I can't think of right now)
+(You can use the PID to regulate other things depending on the sensor/device it was powering. It just needs to measure something and to be able to influence that measurement. People have used PID controllers to make robots follow lines, and other things I can't think of right now)
 
 # Hardware
 
