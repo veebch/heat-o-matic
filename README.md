@@ -18,17 +18,17 @@ A [proportional integral derivative](https://en.wikipedia.org/wiki/PID_controlle
 
 **Warning: Don't generate heat using something that dislikes being power-cycled a lot. This is GPL code.Yada yada NO WARRANTY**
 
-# Installing Lazycook onto a Pico
+# Installing Heat-o-matic onto a Pico
 
 First flash the board with the latest version of micropython. 
 
 Then clone this repository onto your computer
 
-     git clone https://github.com/veebch/lazycook
+     git clone https://github.com/veebch/heat-o-matic
 
 and move into the repository directory
 
-     cd lazycook
+     cd heat-o-matic
 
 There are a few files to copy to the pico, [ampy](https://learn.adafruit.com/micropython-basics-load-files-and-run-code/install-ampy) is a good way to do it.
 
@@ -40,7 +40,7 @@ substitute the device name to whatever the pico is on your system.
 
 TODO: Insert wiring diagram
 
-# Using Lazycook
+# Using heat-o-matic
 
 Plug it in, pop the temperature probe into the medium you are going to heat, plug the heat-providing device into the plug socket, pick a setpoint using the dial. That's it!
 
