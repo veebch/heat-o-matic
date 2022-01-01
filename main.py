@@ -180,7 +180,7 @@ checkin = 5
 # Kp is steering harder the further off course you are,
 # Ki is steering into the wind to counteract a drift
 # Kd is slowing the turn as you approach your course
-Kp=10.   # Proportional term - Basic steering
+Kp=20.   # Proportional term - Basic steering (This is the first parameter you should tune for a particular setup)
 Ki=.01   # Integral term - Compensate for heat loss by vessel
 Kd=150.  # Derivative term - to prevent overshoot due to inertia - if it is zooming towards setpoint this
          # will cancel out the proportional term due to the large negative gradient
