@@ -50,6 +50,8 @@ Plug it in, pop the temperature probe into the medium you are going to heat, plu
 
 # Video 
 
+[![Cooking With Micropython](http://img.youtube.com/vi/rooKTWVzXWw/0.jpg)](http://www.youtube.com/watch?v=rooKTWVzXWw "Video Title")
+
 From GitHub to GutGrub. Thank you, thank you, I'm here all week, don't forget to tip your waitress.
 
 # Contributing to the code
