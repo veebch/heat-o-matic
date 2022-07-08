@@ -130,6 +130,7 @@ def button(pin):
 
 # Screen to display on OLED during heating
 def displaynum(num,temperature):
+    ssd.fill(0)
     #This needs to be fast for nice responsive increments
     #100 increments?
     delta=num-temperature
@@ -138,7 +139,7 @@ def displaynum(num,temperature):
         text=SSD.rgb(255,0,0)
     wri = CWriter(ssd,quantico40, fgcolor=text,bgcolor=0)
     CWriter.set_textpos(ssd, 35,0)  # verbose = False to suppress console output
-    wri.printstring(str("{:.1f}".format(num))+" ")
+    wri.printstring(str("{:.1f}".format(num)))
     wrimem = CWriter(ssd,freesans20, fgcolor=SSD.rgb(255,255,255),bgcolor=0)
     CWriter.set_textpos(ssd, 90,0)  
     wrimem.printstring('actual: '+str("{:.1f}".format(temperature))+" C ")
