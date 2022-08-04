@@ -14,7 +14,7 @@ A [proportional integral derivative](https://en.wikipedia.org/wiki/PID_controlle
 - SSD1351 Waveshare OLED 
 - WGCD KY-040 Rotary Encoder
 - DS18B20 Stainless Steel Temperature Sensor (with 5K1 pull-up resistor)
-- A relay switch
+- A relay switch (seeed 103020005)
 - A plug socket for the heating device. For cooking, we use one of [these](https://www.galaxus.ch/de/s2/product/rommelsbacher-ts1502-wasserkocher-8406453?supplier=406802)
 - Wires Galore
 
