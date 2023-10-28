@@ -70,11 +70,15 @@ All of the pins are listed in main.py. Note that the temperature sensor needed a
 
 Plug it in, pop the temperature probe into the medium you are going to heat, plug the heat-providing device into the plug socket, pick a setpoint using the dial. That's it!
 
-# Video 
+# Video
+
+A brief explainer and a burger cooking application is in this video (we deep fried the burger after the water bath cooking)....
 
 [![Cooking With Micropython](http://img.youtube.com/vi/rooKTWVzXWw/0.jpg)](http://www.youtube.com/watch?v=rooKTWVzXWw "Video Title")
 
-From GitHub to GutGrub. Thank you, thank you, I'm here all week, don't forget to tip your waitress.
+and also
+
+(TODO: insert video link)
 
 # Contributing to the code
 
