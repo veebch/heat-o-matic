@@ -194,7 +194,7 @@ refresh(ssd, True)  # Initialise and clear display.
 lasterror = 0
 # The Tweakable values that will help tune for our use case. TODO: Make accessible via menu on OLED
 checkin = 5
-# Stolen From Reddit: In terms of steering a ship:
+# Explanation Stolen From Reddit: In terms of steering a ship:
 # Kp is steering harder the further off course you are,
 # Ki is steering into the wind to counteract a drift
 # Kd is slowing the turn as you approach your course
