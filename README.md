@@ -14,7 +14,7 @@ PID is a fancy way of saying that the code plays a game of 'Warmer', 'Colder' to
 
 # Hardware
 
-- Raspberry Pi Pico 
+- Raspberry Pi Pico  (Pico W not needed here)
 - SSD1351 Waveshare OLED 
 - WGCD KY-040 Rotary Encoder
 - DS18B20 Stainless Steel Temperature Sensor (with 5K1 pull-up resistor)
@@ -26,7 +26,7 @@ PID is a fancy way of saying that the code plays a game of 'Warmer', 'Colder' to
 
 # Installing Heat-o-matic onto a Pico
 
-First flash the board with the latest version of micropython. 
+First flash the board with the latest version of [micropython](https://micropython.org/download/RPI_PICO/). 
 
 Then clone this repository onto your computer
 
