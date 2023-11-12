@@ -46,7 +46,9 @@ substitute the device name to whatever the pico is on your system.
 
 All of the pins are listed in main.py. Note that the temperature sensor needed a pull-up resistor on the signal. Also, the switch on the roatary encoder (that was being used as a means to toggle the UI) is disabled as it was being triggered by the relay.... this can probably be fixed with a capacitor. 
 
-- The data lines of the OLED connect to the GPIO as follows:
+## OLED 
+
+The data lines of the OLED connect to the GPIO as follows:
 
 | [Pico GPIO](https://www.elektronik-kompendium.de/sites/raspberry-pi/bilder/raspberry-pi-pico-gpio.png) | OLED |
 |-----------|------|
@@ -56,8 +58,7 @@ All of the pins are listed in main.py. Note that the temperature sensor needed a
 |   20       | DC  |
 |   21      | RST  |
 
-
-- The Rotary Encoder connects to the GPIO as follows:
+##  Rotary Encoder
 
 | [Pico GPIO](https://www.elektronik-kompendium.de/sites/raspberry-pi/bilder/raspberry-pi-pico-gpio.png) | Rotary Encoder |
 |-----------|----------------|
@@ -65,6 +66,21 @@ All of the pins are listed in main.py. Note that the temperature sensor needed a
 |   3       | DT             |
 
 (GND and VCC are both connected to the Pico pins too)
+
+## Temperature Sensor 
+
+| [Pico GPIO](https://www.elektronik-kompendium.de/sites/raspberry-pi/bilder/raspberry-pi-pico-gpio.png) | Rotary Encoder |
+|-----------|----------------|
+|   22      | Data           |
+
+##  Relay Switch
+
+| [Pico GPIO](https://www.elektronik-kompendium.de/sites/raspberry-pi/bilder/raspberry-pi-pico-gpio.png) | Rotary Encoder |
+|-----------|----------------|
+|   15      | Data           |
+
+
+
 
 # Using heat-o-matic
 
