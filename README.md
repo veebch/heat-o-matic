@@ -44,8 +44,6 @@ substitute the device name to whatever the pico is on your system.
 
 # Wiring
 
-All of the pins are listed in main.py. Note that the temperature sensor needed a pull-up resistor on the signal. Also, the switch on the roatary encoder (that was being used as a means to toggle the UI) is disabled as it was being triggered by the relay.... this can probably be fixed with a capacitor. 
-
 The data lines of the peripherals are assigned to GPIO as follows:
 
 | [Pico GPIO](https://www.elektronik-kompendium.de/sites/raspberry-pi/bilder/raspberry-pi-pico-gpio.png) | OLED |
@@ -63,7 +61,7 @@ The data lines of the peripherals are assigned to GPIO as follows:
 |  | **Relay Switch** |
 |   15      | Data           |
 
-**VCC** and **GND** must also be connected for each.
+**VCC** and **GND** must also be connected for each. Note that the temperature sensor needed a pull-up resistor on the signal. Also, the switch on the roatary encoder (that was being used as a means to toggle the UI) is unused as it was being triggered by the relay.... this can probably be fixed with a capacitor or a flyback diode. 
 
 
 # Using heat-o-matic
