@@ -78,7 +78,7 @@ switch = Pin(4, mode=Pin.IN, pull = Pin.PULL_UP) # inbuilt switch on the rotary 
 outA = Pin(2, mode=Pin.IN) # Pin CLK of encoder
 outB = Pin(3, mode=Pin.IN) # Pin DT of encoder
 
-# Define relay and LED pins
+# Define LED pin
 
 ledPin = Pin(25, mode = Pin.OUT, value = 0) # Onboard led on GPIO 25
 
