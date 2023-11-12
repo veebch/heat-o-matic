@@ -57,25 +57,17 @@ The data lines of the OLED connect to the GPIO as follows:
 |   17      | CS  |
 |   20       | DC  |
 |   21      | RST  |
-
-##  Rotary Encoder
-
-| [Pico GPIO](https://www.elektronik-kompendium.de/sites/raspberry-pi/bilder/raspberry-pi-pico-gpio.png) | Rotary Encoder |
+|-----------|----------------|
+|           | Rotary Encoder |
 |-----------|----------------|
 |   2       | CLK            |
 |   3       | DT             |
-
-(GND and VCC are both connected to the Pico pins too)
-
-## Temperature Sensor 
-
-| [Pico GPIO](https://www.elektronik-kompendium.de/sites/raspberry-pi/bilder/raspberry-pi-pico-gpio.png) | Rotary Encoder |
+|-----------|----------------|
+|           | Temp. Sensor |
 |-----------|----------------|
 |   22      | Data           |
-
-##  Relay Switch
-
-| [Pico GPIO](https://www.elektronik-kompendium.de/sites/raspberry-pi/bilder/raspberry-pi-pico-gpio.png) | Rotary Encoder |
+|-----------|----------------|
+|  | Relay Switch |
 |-----------|----------------|
 |   15      | Data           |
 
