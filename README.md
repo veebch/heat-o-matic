@@ -61,7 +61,7 @@ The data lines of the peripherals are assigned to GPIO as follows:
 |  | **Relay Switch** |
 |   15      | Data           |
 
-**VCC** and **GND** must also be connected for each. Note that the temperature sensor needed a pull-up resistor on the signal. Also, the switch on the roatary encoder (that was being used as a means to toggle the UI) is unused as it was being triggered by the relay.... this can probably be fixed with a capacitor or a flyback diode. 
+**VCC** and **GND** must also be connected for each. Note that the temperature sensor needed a pull-up resistor on the signal. Also, the switch on the roatary encoder (that was being used as a means to toggle the UI) is unused as it was being triggered by the relay.... If you decide you need it, this can probably be fixed with a capacitor or a flyback diode. 
 
 
 # Using heat-o-matic
