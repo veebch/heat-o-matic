@@ -61,10 +61,9 @@ The data lines of the peripherals are assigned to GPIO as follows:
 |           | **Temp. Sensor** |
 |   22      | Data           |
 |  | **Relay Switch** |
-|-----------|----------------|
 |   15      | Data           |
 
-
+**VCC** and **GND** must also be connected for each.
 
 
 # Using heat-o-matic
