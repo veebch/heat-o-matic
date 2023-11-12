@@ -74,9 +74,6 @@ A brief explainer and a burger cooking application is in this video (we deep fri
 
 [![Cooking With Micropython](http://img.youtube.com/vi/rooKTWVzXWw/0.jpg)](http://www.youtube.com/watch?v=rooKTWVzXWw "Video Title")
 
-and also
-
-(TODO: insert video link)
 
 # Contributing to the code
 
