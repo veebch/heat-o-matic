@@ -37,6 +37,7 @@ import onewire, ds18x20
 from drivers.ssd1351.ssd1351_16bit import SSD1351 as SSD
 # Look for thermometer (add OLED complaint if one can't be seen)
 ds_pin = Pin(22)
+relaypin = Pin(15, mode = Pin.OUT, value =0 )
 ds_sensor = ds18x20.DS18X20(onewire.OneWire(ds_pin))
 roms = ds_sensor.scan()
 print('Thermometer: ', roms)
@@ -166,7 +167,7 @@ def displaynum(num,temperature):
 
 def beanaproblem(string):
     refresh(ssd, True)  # Clear any prior image
-    relaypin = Pin(15, mode = Pin.OUT, value =0 )
+    relaypin.value(0)
     utime.sleep(2)
     
 # Attach interrupt to Pins
@@ -241,10 +242,10 @@ while True:
                     output=100
                 print(output)
                 if output>0:  
-                    relaypin = Pin(15, mode = Pin.OUT, value =1 )
+                    relaypin.value(1)
                     offstate = False
                 else:
-                    relaypin = Pin(15, mode = Pin.OUT, value =0 )
+                    relaypine.value(0)
                     offstate = True
                 utime.sleep(.1)
                 lastupdate = now
