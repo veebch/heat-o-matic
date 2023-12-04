@@ -245,7 +245,7 @@ while True:
                     relaypin.value(1)
                     offstate = False
                 else:
-                    relaypine.value(0)
+                    relaypin.value(0)
                     offstate = True
                 utime.sleep(.1)
                 lastupdate = now
