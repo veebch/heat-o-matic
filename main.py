@@ -228,7 +228,7 @@ while True:
             now = utime.time()
             dt= now-lastupdate
             if output<100 and offstate == False and dt > checkin * round(output)/100 :
-                relaypin = Pin(15, mode = Pin.OUT, value =0 )
+                relaypin.value(0)
                 offstate= True
                 utime.sleep(.1)
             if dt > checkin:
