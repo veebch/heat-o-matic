@@ -68,7 +68,7 @@ Plug it in, pop the temperature probe into the medium you are going to heat, plu
 
 # Video
 
-A brief explainer and a burger cooking application is in this video (we omitted to mention that we also deep fried the burger after the water bath cooking)....
+A brief explainer and a burger cooking application is in this video (we omitted to mention that we also deep fried the burger after the water bath cooking)
 
 [![Cooking With Micropython](http://img.youtube.com/vi/rooKTWVzXWw/0.jpg)](http://www.youtube.com/watch?v=rooKTWVzXWw "Video Title")
 
